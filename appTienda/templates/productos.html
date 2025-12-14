@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Productos</title>
+    </head>
+    <body>
+        <h1>Listado de Productos</h1>
+
+        {% for p in productos %}
+        <p>{{p.nombre}} - ${{p.precio_base}}</p>
+        {% endfor %}
+    </body>
+</html>
