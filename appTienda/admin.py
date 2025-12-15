@@ -31,14 +31,26 @@ class PedidoAdmin(admin.ModelAdmin):
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('nombre',)
-    list_filter = ('nombre',)
     search_fields = ('nombre',)
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'categoria', 'precio_base')
-    list_filter = ('categoria',)
+    list_display = ('preview_imagen', 'nombre', 'categoria', 'precio_base', 'destacado')
+    list_filter = ('categoria', 'destacado')
     search_fields = ('nombre',)
+    readonly_fields = ('preview_imagen',)
+    list_editable = ('destacado',)
+    list_display_links = ('nombre',)
+
+    def preview_imagen(self, obj):
+        if obj.imagen1:
+            return format_html(
+                '<img_src"{}" width="80" style= "border-radius:4px;" />',
+                obj.imagen1.url
+            )
+        return "-"
+    
+    preview_imagen.short_description = "Imagen"
 
 @admin.register(Insumo)
 class InsumoAdmin(admin.ModelAdmin):

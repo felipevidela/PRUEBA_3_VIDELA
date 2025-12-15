@@ -6,19 +6,44 @@
     </head>
     <body>
         <h1>Listado de Productos</h1>
+        <h2>Filtrar</h2>
+
+        <form method="GET">
+            <select name="categoria">
+                <option value="">-- Todas --</option>
+                {% for c in categorias %}
+                <option value="{{ c.id }}" {% if categoria_id == c.id|stringformat:"s" %}selected{% endif %}>
+                {{ c.nombre }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <label>Buscar:</label>
+            <input type="text" name="q" value="{{ q }}" placeholder="Ej: polera">
+
+            <button type="submit">Aplicar</button>
+        </form>
+
+        <hr>
+
         {% for p in productos %}
             {% if p.imagen1 %}
                 <img src="{{ p.imagen1.url }}" width="200">
             {% endif %}
 
             <p>
-                <a href="/productos/{{ p.id }}/">
+                <a href="{% url 'producto_detalle' p.id %}">
                     {{ p.nombre }} - ${{ p.precio_base }}
                 </a>
+
+                {% if p.destacado %}
+                    <strong>⭐ Destacado</strong>
+                {% endif %}
             </p>
 
             <hr>
-
+        {% empty %}
+            <p>No hay productos para mostrar.</p>
         {% endfor %}
     </body>
 </html>

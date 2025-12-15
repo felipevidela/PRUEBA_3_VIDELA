@@ -7,16 +7,25 @@ from django.core.exceptions import ValidationError
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
-
+    #Esto es para ordenar Categoria 
+    class Meta: 
+        ordering = ['nombre']
+    
     def __str__(self):
         return self.nombre
+
 
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField()
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    precio_base = models.IntegerField()
+    precio_base = models.PositiveIntegerField()
+    destacado = models.BooleanField(default=False)
+    #Esto es para ordenar Producto
+    class Meta: 
+        ordering = ['nombre']
+
 
     imagen1 = models.ImageField(upload_to='productos/', null=True, blank=True)
     imagen2 = models.ImageField(upload_to='productos/', null=True, blank=True)
@@ -56,6 +65,7 @@ class Pedido(models.Model):
     correo = models.EmailField()
     descripcion = models.TextField()
     fecha_solicitada = models.DateField()
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT, null=True, blank=True)
 
     estado = models.CharField(max_length=20, choices=ESTADOS, default='SOLICITADO')
     estado_pago = models.CharField(max_length=20, choices=PAGOS, default='PENDIENTE')
@@ -64,6 +74,9 @@ class Pedido(models.Model):
     plataforma_otra = models.CharField(max_length=50, blank=True, null=True)
 
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    #Esto es para ordenar Pedido
+    class Meta: 
+        ordering = ['nombre_cliente']
 
     def clean(self):
         # Regla: no se puede finalizar si no está pagado
@@ -104,10 +117,13 @@ class Insumo(models.Model):
 
     nombre = models.CharField(max_length=100)
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-    cantidad_disponible = models.IntegerField()
+    cantidad_disponible = models.PositiveIntegerField()
     unidad = models.CharField(max_length=20, null=True, blank=True)
     marca = models.CharField(max_length=50)
     color = models.CharField(max_length=30)
+    #Esto es para ordenar Insumo 
+    class Meta: 
+        ordering = ['nombre']
 
     def __str__(self):
         return self.nombre

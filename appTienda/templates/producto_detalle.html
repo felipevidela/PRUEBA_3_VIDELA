@@ -25,7 +25,25 @@
             <img src="{{ producto.imagen3.url }}" width="250">
         {% endif %}
 
-        <p><a href="/productos">Volver</a></p>
+        <hr>
+
+        <h2>Hacer un pedido</h2>
+
+        {% if mensaje %}
+            <p>{{ mensaje }}</p>
+        {% endif %}
+
+        {% if token %}
+            <p><b>Seguimiento:</b> <a href="/seguimiento/{{ token }}/">Ver estado del pedido</a></p>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enviar pedido</button>
+        </form>
+
+        <p><a href="/productos/">Volver</a></p>
 
     </body>
 </html>
