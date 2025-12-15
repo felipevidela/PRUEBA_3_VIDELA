@@ -23,7 +23,16 @@ class PedidoAdmin(admin.ModelAdmin):
     search_fields = ('nombre_cliente', 'correo', 'token')
     inlines = [PedidoImagenInline]
 
-admin.site.register(Categoria)
+    #Forzar validaciones del modelo (clean) al guardar desde el admin
+    def save_model(self, request, obj, form, change):
+        obj.full_clean()
+        super().save_model(request, obj, form, change)
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+    list_filter = ('nombre',)
+    search_fields = ('nombre',)
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
@@ -36,8 +45,3 @@ class InsumoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'tipo', 'cantidad_disponible', 'unidad', 'marca', 'color')
     search_fields = ('nombre', 'marca', 'color')
     list_filter = ('tipo', 'marca', 'color')
-
-#Esto me sugirió la IA para que respete la regla siempre la app
-def save_model(self, request, obj, form, change):
-    obj.full_clean() #Esto hace forzar las validaciones limpias clean()
-    super().save_model(request, obj, form, change)
