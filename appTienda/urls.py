@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings 
+from django.conf.urls.static import static 
 from . import views
 
 urlpatterns = [
@@ -8,4 +10,7 @@ urlpatterns = [
     path('categorias/<int:id>/', views.productos_por_categoria, name='productos_por_categoria'),
     path('pedir/', views.pedir, name= 'pedir'),
     path('seguimiento/<uuid:token>/', views.seguimiento, name='seguimiento'),
+    path('productos/<int:id>/', views.producto_detalle)
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

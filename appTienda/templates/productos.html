@@ -6,9 +6,19 @@
     </head>
     <body>
         <h1>Listado de Productos</h1>
-
         {% for p in productos %}
-        <p>{{p.nombre}} - ${{p.precio_base}}</p>
+            {% if p.imagen1 %}
+                <img src="{{ p.imagen1.url }}" width="200">
+            {% endif %}
+
+            <p>
+                <a href="/productos/{{ p.id }}/">
+                    {{ p.nombre }} - ${{ p.precio_base }}
+                </a>
+            </p>
+
+            <hr>
+
         {% endfor %}
     </body>
 </html>

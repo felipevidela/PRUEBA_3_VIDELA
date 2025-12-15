@@ -19,6 +19,9 @@ class Producto(models.Model):
     imagen2 = models.ImageField(upload_to='productos/', null=True, blank=True)
     imagen3 = models.ImageField(upload_to='productos/', null=True, blank=True)
 
+    def __str__(self):
+        return self.nombre
+
 class Pedido(models.Model): 
     nombre_cliente = models.CharField(max_length=100)
     correo = models.EmailField()
@@ -41,4 +44,22 @@ class Pedido(models.Model):
     def __str__(self):
         return self.nombre_cliente
 
+class Insumo(models.Model): 
+    TIPO_CHOICES = [
+        ('tela', 'Tela'),
+        ('cuero', 'Cuero'),
+        ('plastico', 'Plástico'),
+        ('metal', 'Metal'),
+        ('otro', "Otro"),
+        ]
 
+    nombre = models.CharField(max_length=100)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    cantidad_disponible = models.IntegerField()
+    unidad = models.CharField(max_length=20, null=True, blank=True)
+    marca = models.CharField(max_length=50)
+    color = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.nombre
+   

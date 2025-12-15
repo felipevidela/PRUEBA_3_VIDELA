@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404 
+#Esto me lo recomendó una IA para dar aviso de error 
 from .models import Producto, Categoria, Pedido 
 from .forms import PedidoForm 
 
@@ -14,6 +15,14 @@ def productos(request):
         'productos': lista
     }
     return render(request, 'productos.html', data)
+
+def producto_detalle(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    data = {
+        'producto': producto
+    }
+
+    return render(request, 'producto_detalle.html', data)
 
 def categorias(request):
     lista = Categoria.objects.all()
