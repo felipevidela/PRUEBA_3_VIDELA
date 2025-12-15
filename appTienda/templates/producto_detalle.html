@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ producto.nombre }}</title>
+    </head>
+    <body>
+        <h1>{{ producto.nombre }}</h1>
+
+        <p><b>Precio:</b> ${{ producto.precio_base }}</p>
+        <p><b>Descripción:</b> {{ producto.descripcion }}</p>
+        <p><b>Categoría:</b> {{ producto.categoria.nombre }}</p>
+
+        <h3>Imágenes</h3>
+
+        {% if producto.imagen1 %}
+            <img src="{{ producto.imagen1.url }}" width="250">
+        {% endif %}
+
+        {% if producto.imagen2 %}
+            <img src="{{ producto.imagen2.url }}" width="250">
+        {% endif %}
+
+        {% if producto.imagen3 %}
+            <img src="{{ producto.imagen3.url }}" width="250">
+        {% endif %}
+
+        <p><a href="/productos">Volver</a></p>
+
+    </body>
+</html>
