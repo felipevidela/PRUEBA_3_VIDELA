@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Seguimiento de Pedido</title>
+    </head>
+    <body>
+        <h1>Seguimiento de Pedidos</h1>
+
+        <p><strong>Cliente:</strong> {{ pedido.nombre_cliente }}</p>
+        <p><strong>Correo:</strong>{{ pedido.correo }}</p>
+        <p><strong>Descripción:</strong> {{pedido.descripcion }}</p>
+        <p><strong>Fecha solicitada: </strong> {{pedido.fecha_solicitada }}</p>
+        <p><strong>Estado: </strong> {{ pedido.estado }}</p>
+        <p><strong>Token:</strong> {{ pedido.token }}</p>
+    </body>
+</html>
