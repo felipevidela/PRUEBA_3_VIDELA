@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pedido</title>
+    </head>
+<body>
+    <h1>Formulario de Pedido</h1>
+
+    {% if mensaje %}
+    <p>{{ mensaje }} </p>
+    {% endif %}
+
+    {% if token%}
+    <p>Seguimiento</p>
+    <a href="/seguimiento/{{ token }}/">Ver estado del pedido</a>
+    {% endif %} 
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>

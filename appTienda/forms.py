@@ -1,7 +1,11 @@
-from django import forms 
+from django import forms
+from .models import Pedido 
 
-class PedidoForm(forms.Form):
-    nombre_cliente = forms.CharField()
-    correo = forms.EmailField()
-    descripcion = forms.CharField(widget=forms.Textarea)
-    fecha_solicitada = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+class PedidoForm(forms.ModelForm):
+    class Meta: 
+        model = Pedido 
+        fields = ['nombre_cliente', 'correo', 'descripcion', 'fecha_solicitada']
+        widgets = {
+            'fecha_solicitada': forms.DateInput(attrs={'type':'date'})
+        }
+

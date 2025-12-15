@@ -39,8 +39,9 @@ def pedir(request):
     if request.method == 'POST': 
         formulario = PedidoForm(request.POST)
         if formulario.is_valid(): 
-            formulario.save()
-            data['mensaje'] = 'Pedido enviado'
+            pedido = formulario.save()
+            data['mensaje'] = 'Pedido enviado exitosamente'
+            data['token'] = pedido.token #Esto es para obtener el objeto y su token, servirá para que en el mensaje tenga un link de seguimiento 
             data['form'] = PedidoForm() #Esto es para limpiar el formulario
         else: 
             data['form'] = formulario 

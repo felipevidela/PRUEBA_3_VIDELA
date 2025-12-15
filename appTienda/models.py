@@ -1,6 +1,7 @@
+import uuid 
+# Usé uuid por que es lo que encontré en internet que puede servirme para tener un token único de seguimiento para cada pedido"
 from django.db import models
 
-# Create your models here.
 
 class Categoria(models.Model): 
     nombre = models.CharField(max_length=100)
@@ -18,6 +19,26 @@ class Producto(models.Model):
     imagen2 = models.ImageField(upload_to='productos/', null=True, blank=True)
     imagen3 = models.ImageField(upload_to='productos/', null=True, blank=True)
 
+class Pedido(models.Model): 
+    nombre_cliente = models.CharField(max_length=100)
+    correo = models.EmailField()
+    descripcion = models.TextField()
+    fecha_solicitada = models.DateField()
+
+    estado = models.CharField(
+        max_length=20,
+        choices= [
+            ('solicitado', 'Solicitado'),
+            ('en_proceso', 'En proceso'),
+            ('finalizado', 'Finalizado'),
+        ],
+        default='solicitado'
+    )
+
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    #Aquí me apoye de la IA para hacer esto por que no sabía como implementarlo.
+
     def __str__(self):
-        return self.nombre 
-    
+        return self.nombre_cliente
+
+
