@@ -15,7 +15,7 @@ Projecto Django para catálogo de productos público y administración de pedido
     - `git clone https://github.com/felipevidela/PRUEBA_3_VIDELA.git`
     - `cd PRUEBA_3_VIDELA`
 2. Instala las dependencias: 
-    `python 3 -m pip install -r requirements.txt`
+    `python3 -m pip install -r requirements.txt`
 ### Base de datos incluida (recomendada para hacer pruebas)
 Este repositorio trae db.sqlite3 con datos de prueba y las tablas ya creadas
 (incluye appTienda_pedidoimagen), pero en django_migrations no está marcada la migración 0005. Para alinear el historial sin recrear la tabla usa: 
