@@ -3,6 +3,7 @@ import uuid
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 
 class Categoria(models.Model):
@@ -62,9 +63,21 @@ class Pedido(models.Model):
     ]
 
     nombre_cliente = models.CharField(max_length=100)
-    correo = models.EmailField()
+    #Aqui se crea un validor de 9 digitos para el telefono
+    telefono = models.CharField(
+        max_length=9,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{9}$",
+                message="El teléfono debe tener exactamente 9 dígitos.",
+            )
+        ], 
+        blank=True, null=True 
+    )
+    usuario_red_social = models.CharField(max_length=100, blank=True, null=True)
+    correo = models.EmailField(blank=True, null=True)
     descripcion = models.TextField()
-    fecha_solicitada = models.DateField()
+    fecha_solicitada = models.DateField(blank=True, null=True)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT, null=True, blank=True)
 
     estado = models.CharField(max_length=20, choices=ESTADOS, default='SOLICITADO')

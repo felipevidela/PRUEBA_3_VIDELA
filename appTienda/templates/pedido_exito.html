@@ -7,6 +7,10 @@
     <body>
         <h1>✅ Pedido enviado</h1>
         <p>Tu pedido fue registrado correctamento.</p>
+        {% if token %}
+        <p>Guarda este enlace para seguir tu pedido:</p>
+        <p><a href="{{ url_seguimiento }}">{{ url_seguimiento }}</a></p>
+        {% endif %}
         <p><a href="/productos/">Volver al catálogo</a></p>
     </body>
 </html>

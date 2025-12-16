@@ -1,6 +1,7 @@
+from django import forms
 from django.contrib import admin
-from django.utils.html import format_html 
-from .models import Pedido, PedidoImagen, Categoria, Producto, Insumo 
+from django.utils.html import format_html
+from .models import Pedido, PedidoImagen, Categoria, Producto, Insumo
 
 #Para hacer la clase PedidoImagenInline usé IA
 class PedidoImagenInline(admin.TabularInline):
@@ -35,6 +36,37 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
+    #Se crean checkboxes para poder eliminar una o varias imagenes por completo, ya que vi que era necesario tenerlas
+    class ProductoAdminForm(forms.ModelForm):
+        eliminar_imagen1 = forms.BooleanField(required=False, label="Eliminar imagen 1")
+        eliminar_imagen2 = forms.BooleanField(required=False, label="Eliminar imagen 2")
+        eliminar_imagen3 = forms.BooleanField(required=False, label="Eliminar imagen 3")
+
+        class Meta:
+            model = Producto
+            fields = "__all__"
+
+        def save(self, commit=True):
+            producto = super().save(commit=False)
+
+            for imagen_field, flag_field in [
+                ("imagen1", "eliminar_imagen1"),
+                ("imagen2", "eliminar_imagen2"),
+                ("imagen3", "eliminar_imagen3"),
+            ]:
+                if self.cleaned_data.get(flag_field):
+                    imagen = getattr(producto, imagen_field)
+                    if imagen:
+                        imagen.delete(save=False)
+                    setattr(producto, imagen_field, None)
+
+            if commit:
+                producto.save()
+                self.save_m2m()
+
+            return producto
+
+    form = ProductoAdminForm
     list_display = ('preview_imagen', 'nombre', 'categoria', 'precio_base', 'destacado')
     list_filter = ('categoria', 'destacado')
     search_fields = ('nombre',)
@@ -45,7 +77,7 @@ class ProductoAdmin(admin.ModelAdmin):
     def preview_imagen(self, obj):
         if obj.imagen1:
             return format_html(
-                '<img_src"{}" width="80" style= "border-radius:4px;" />',
+                '<img src="{}" width="80" style="border-radius:4px;" />',
                 obj.imagen1.url
             )
         return "-"

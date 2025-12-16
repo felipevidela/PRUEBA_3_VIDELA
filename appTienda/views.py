@@ -58,18 +58,22 @@ def pedir(request):
     if request.method == "POST":
         formulario = PedidoForm(request.POST, request.FILES)
         if formulario.is_valid():
-            pedido = formulario.save()
+            pedido = formulario.save(commit=False)
+            pedido.plataforma = "SITIO_WEB"
+            pedido.save()
 
             for archivo in formulario.cleaned_data.get("imagenes", []):
                 PedidoImagen.objects.create(pedido=pedido, imagen=archivo)
-
-            return redirect("pedido_exito")
-
+            
+            url_seguimiento = request.build_absolute_uri(f"/seguimiento/{pedido.token}/")
+            return render (request, "pedido_exito.html", {
+                "token": pedido.token,
+                "url_seguimiento": url_seguimiento,
+            })
     else:
         formulario = PedidoForm(initial={"producto": producto_id}) if producto_id else PedidoForm()
 
     return render(request, "pedido_form.html", {"form": formulario})
-
 
 def seguimiento(request, token):
     pedido = get_object_or_404(Pedido, token=token)
