@@ -98,8 +98,8 @@ class Pedido(models.Model):
 
 
 class PedidoImagen(models.Model):
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='imagenes')
-    imagen = models.ImageField(upload_to='pedidos/')
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name="imagenes")
+    imagen = models.ImageField(upload_to="pedidos/")
     descripcion = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):

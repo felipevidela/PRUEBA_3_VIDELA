@@ -16,10 +16,10 @@
     <a href="/seguimiento/{{ token }}/">Ver estado del pedido</a>
     {% endif %} 
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Enviar</button>
+        <button type="submit">Enviar pedido</button>
     </form>
 </body>
 </html>

@@ -11,6 +11,7 @@ urlpatterns = [
     path('pedir/', views.pedir, name= 'pedir'),
     path('seguimiento/<uuid:token>/', views.seguimiento, name='seguimiento'),
     path('productos/<int:id>/', views.producto_detalle, name="producto_detalle"),
+    path("pedido/exito/", views.pedido_exito, name="pedido_exito"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

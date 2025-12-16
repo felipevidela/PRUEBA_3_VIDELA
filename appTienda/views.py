@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Producto, Categoria, Pedido
+from django.shortcuts import render, get_object_or_404, redirect 
+from .models import Producto, Categoria, Pedido, PedidoImagen 
 from .forms import PedidoForm
 
 # Create your views here.
@@ -53,23 +53,27 @@ def productos_por_categoria(request, id):
 
 
 def pedir(request):
-    data = {"form": PedidoForm()}
+    producto_id = request.GET.get("producto_id") or request.POST.get("producto")
 
     if request.method == "POST":
-        formulario = PedidoForm(request.POST)
+        formulario = PedidoForm(request.POST, request.FILES)
         if formulario.is_valid():
             pedido = formulario.save()
-            data["mensaje"] = "Pedido enviado exitosamente"
-            # Mostrar el link de seguimiento
-            data["token"] = pedido.token
-            # Limpiar el formulario
-            data["form"] = PedidoForm()
-        else:
-            data["form"] = formulario
 
-    return render(request, "pedido_form.html", data)
+            for archivo in formulario.cleaned_data.get("imagenes", []):
+                PedidoImagen.objects.create(pedido=pedido, imagen=archivo)
+
+            return redirect("pedido_exito")
+
+    else:
+        formulario = PedidoForm(initial={"producto": producto_id}) if producto_id else PedidoForm()
+
+    return render(request, "pedido_form.html", {"form": formulario})
 
 
 def seguimiento(request, token):
     pedido = get_object_or_404(Pedido, token=token)
     return render(request, "seguimiento.html", {"pedido": pedido})
+
+def pedido_exito(request):
+    return render(request, "pedido_exito.html")
