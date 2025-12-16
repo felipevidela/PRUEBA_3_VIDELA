@@ -1,6 +1,12 @@
-from django.shortcuts import render, get_object_or_404, redirect 
-from .models import Producto, Categoria, Pedido, PedidoImagen 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Producto, Categoria, Pedido, PedidoImagen
 from .forms import PedidoForm
+#Con esto nos aseguramos de que la página de resumen de pedidos no sea pública
+# y que se puede ver estando logeada en el admin de django
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from django.db.models import Count
+from django.db.models.functions import Upper
 
 # Create your views here.
 
@@ -81,3 +87,29 @@ def seguimiento(request, token):
 
 def pedido_exito(request):
     return render(request, "pedido_exito.html")
+
+@login_required
+def resumen_pedidos(request):
+    if not request.user.is_staff: 
+        return HttpResponseForbidden("Solo para usuarios autorizados.")
+    
+    por_estado = (
+        Pedido.objects.values('estado')
+        .annotate(total=Count('id'))
+        .order_by('-total') #Esto es para ordena esos resultados de mayor a menor 
+    )
+
+    por_pago = (
+        Pedido.objects.values('estado_pago')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+
+    #Sirve para mostrar los 10 ultimos pedidos creados 
+    recientes = Pedido.objects.select_related('producto').order_by('-id')[:10] 
+
+    return render(request, "resumen_pedidos.html", {
+        "por_estado" : por_estado,
+        "por_pago": por_pago, 
+        "recientes": recientes,
+    })

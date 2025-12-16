@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Pedido enviado</title>
-    </head>
-    <body>
-        <h1>✅ Pedido enviado</h1>
-        <p>Tu pedido fue registrado correctamento.</p>
-        {% if token %}
-        <p>Guarda este enlace para seguir tu pedido:</p>
-        <p><a href="{{ url_seguimiento }}">{{ url_seguimiento }}</a></p>
-        {% endif %}
-        <p><a href="/productos/">Volver al catálogo</a></p>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Pedido enviado</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h1 class="mb-3">✅ Pedido enviado</h1>
+    <p>Tu pedido fue registrado correctamente.</p>
+    {% if token %}
+      <div class="alert alert-info">
+        <p class="mb-1">Guarda este enlace para seguir tu pedido:</p>
+        <a href="{{ url_seguimiento }}" class="alert-link">{{ url_seguimiento }}</a>
+      </div>
+    {% endif %}
+    <a class="btn btn-primary" href="/productos/">Volver al catálogo</a>
+  </div>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+</body>
 </html>

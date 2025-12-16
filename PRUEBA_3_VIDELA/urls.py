@@ -15,11 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.conf import settings 
-from django.conf.urls.static import static 
-from django.urls import path, include 
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
+#Esto se hace para que Resumen de Pedidos se vea dentro de Admin
+from appTienda import views as tienda_views 
 
 urlpatterns = [
+    path('admin/appTienda/pedido/resumen/', tienda_views.resumen_pedidos, name='resumen_pedidos'),
     path('admin/', admin.site.urls),
     path('', include('appTienda.urls')),
 ]

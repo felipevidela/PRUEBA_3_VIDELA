@@ -1,38 +1,51 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ producto.nombre }}</title>
-    </head>
-    <body>
-        <h1>{{ producto.nombre }}</h1>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ producto.nombre }}</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h1 class="mb-3">{{ producto.nombre }}</h1>
 
-        <p><b>Precio:</b> ${{ producto.precio_base }}</p>
-        <p><b>Descripción:</b> {{ producto.descripcion }}</p>
-        <p><b>Categoría:</b> {{ producto.categoria.nombre }}</p>
+    <p><strong>Precio:</strong> ${{ producto.precio_base }}</p>
+    <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+    <p><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>
 
-        <h3>Imágenes</h3>
+    <h3 class="mt-4">Imágenes</h3>
+    <div class="d-flex gap-3 flex-wrap">
+      {% if producto.imagen1 %}
+        <img src="{{ producto.imagen1.url }}" class="img-fluid rounded" style="max-width: 250px;">
+      {% endif %}
+      {% if producto.imagen2 %}
+        <img src="{{ producto.imagen2.url }}" class="img-fluid rounded" style="max-width: 250px;">
+      {% endif %}
+      {% if producto.imagen3 %}
+        <img src="{{ producto.imagen3.url }}" class="img-fluid rounded" style="max-width: 250px;">
+      {% endif %}
+      {% if not producto.imagen1 and not producto.imagen2 and not producto.imagen3 %}
+        <p class="text-muted">No hay imágenes para este producto.</p>
+      {% endif %}
+    </div>
 
-        {% if producto.imagen1 %}
-            <img src="{{ producto.imagen1.url }}" width="250">
-        {% endif %}
+    <hr class="my-4">
 
-        {% if producto.imagen2 %}
-            <img src="{{ producto.imagen2.url }}" width="250">
-        {% endif %}
+    <a class="btn btn-primary" href="{% url 'pedir' %}?producto_id={{ producto.id }}">Solicitar este producto</a>
+    <p class="mt-2 text-muted">Completa tus datos en el formulario de pedido en la siguiente página.</p>
 
-        {% if producto.imagen3 %}
-            <img src="{{ producto.imagen3.url }}" width="250">
-        {% endif %}
+    <p class="mt-3"><a href="/productos/" class="link-secondary">Volver</a></p>
+  </div>
 
-        <hr>
-
-        <a href="{% url 'pedir' %}?producto_id={{ producto.id }}">
-            <button type="button">Solicitar este producto</button>
-        </a>
-        <p>Completa tus datos en el formulario de pedido en la siguiente página.</p>
-
-        <p><a href="/productos/">Volver</a></p>
-
-    </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+</body>
 </html>
