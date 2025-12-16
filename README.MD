@@ -21,8 +21,9 @@ Projecto Django para catálogo de productos público y administración de pedido
 Este repositorio trae db.sqlite3 con datos de prueba y las tablas ya creadas
 (incluye appTienda_pedidoimagen), pero en django_migrations no está marcada la migración 0005. Para alinear el historial sin recrear la tabla usa: 
 
-`python3 manage.py migrate appTienda 0005 --fake`
-`python3 manage.py migrate`
+```bash
+python3 manage.py migrate appTienda 0005 --fake
+python3 manage.py migrate
 
 Luego inicia el servidor: 
 
@@ -38,9 +39,10 @@ Accesos:
 # Base de datos limpia (sin datos de prueba)  
 
 Si prefieres empezar de cero: 
-`rm db.sqlite3`
-`python3 manage.py migrate`
-`python3 manage.py runserver`
+```bash 
+rm db.sqlite3
+python3 manage.py migrate
+python3 manage.py runserver
 
 Nota: Si ya usaste la base de datos incluida, crear migraciones nuevas puede chocar con las tablas ya existentes.
 
