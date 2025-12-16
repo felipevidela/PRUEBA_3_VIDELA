@@ -6,7 +6,7 @@ Projecto Django para catálogo de productos público y administración de pedido
 
 ## Requisitos
 - Python3 3.13.0 
-- Pip
+- pip
 - Django 5.2.7
 - Pillow 11.3.0 
 
@@ -14,22 +14,35 @@ Projecto Django para catálogo de productos público y administración de pedido
 1. Clona el repositorio desde tu terminal: 
     `git clone https://github.com/felipevidela/PRUEBA_3_VIDELA.git`
     `cd PRUEBA_3_VIDELA`
-2. Instala dependencias: 
-    `pip install -r requirements.txt`
-3. Aplica migraciones: 
-    `python3 manage.py migrate`
-4. Inicia el servidor:
-    `python3 manage.py runserver`
-5. Accede:
-    - URL pública: `http://127.0.0.1:8000/`
-    - Admin: `http://127.0.0.1:8000/admin/`
+2. Instala las dependencias: 
+    `python 3 -m pip install -r requirements.txt`
+    
+### Base de datos incluida (recomendada para hacer pruebas)
+Este repositorio trae db.sqlite3 con datos de prueba y las tablas ya creadas
+(incluye appTienda_pedidoimagen), pero en django_migrations no está marcada la migración 0005. Para alinear el historial sin recrear la tabla usa: 
 
-Para hacer la revisión de la aplicación use:
-- Usuario: `admin`
-- Contraseña: `admin` 
+`python3 manage.py migrate appTienda 0005 --fake`
+`python3 manage.py migrate`
 
-## Funcionalidad extra 
-- Resumen de pedidos para el personal administativo en `/admin/appTienda/pedido/resumen/` con conteos por estado, estado de pago y últimos pedidos con enlace para su seguimiento. 
+Luego inicia el servidor: 
+
+`python3 manage.py runserver`
+
+Accesos: 
+
+- Sitio público: http://127.0.0.1:8000/
+- Admin: http://127.0.0.1.8000/admin/ 
+    - Usuario: `admin`
+    - Contraseña: `admin` 
+
+# Base de datos limpia (sin datos de prueba)  
+
+Si prefieres empezar de cero: 
+`rm db.sqlite3`
+`python3 manage.py migrate`
+`python3 manage.py runserver`
+
+Nota: Si ya usaste la base de datos incluida, crear migraciones nuevas puede chocar con las tablas ya existentes.
 
 ## Estructura principal 
 - `appTienda/`: modelos, vistas, forms, urls.
@@ -37,8 +50,9 @@ Para hacer la revisión de la aplicación use:
 - `media/`: imágenes subidas (productos/pedidos).
 - `db.sqlite3`: base de datos con datos de prueba (categorías, productos, insumos, pedidos).
 
-# Datos de prueba 
-La base de datos `db.sqlite3` incluye categorías, productos, insumos y pedidos de ejemplo para un revisión rápida del sistema 
+## Funcionalidad extra 
+- Resumen de pedidos para el personal administativo en `/admin/appTienda/pedido/resumen/` con conteos por estado, estado de pago y últimos pedidos con enlace para su seguimiento. 
+
 
 
 
