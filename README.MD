@@ -17,11 +17,15 @@ Projecto Django para catálogo de productos público y administración de pedido
 2. Instala las dependencias: 
     `python3 -m pip install -r requirements.txt`
 ### Base de datos incluida (recomendada para hacer pruebas)
-Este repositorio trae db.sqlite3 con datos de prueba y las tablas ya creadas
-(incluye appTienda_pedidoimagen), pero en django_migrations no está marcada la migración 0005. Para alinear el historial sin recrear la tabla usa: 
 
-- `python3 manage.py migrate appTienda 0005 --fake`
-- `python3 manage.py migrate`
+Para usar la base incluida y alinear el historial sin tocar las tablas:
+
+1. Genera las migraciones faltantes (solo la primera vez):  
+   `python3 manage.py makemigrations appTienda`
+2. Márcalas como aplicadas (las tablas ya existen):  
+   `python3 manage.py migrate appTienda --fake`
+3. Ejecuta el resto de migraciones pendientes:  
+   `python3 manage.py migrate`
 
 Luego inicia el servidor: 
 
