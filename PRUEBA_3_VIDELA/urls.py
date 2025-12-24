@@ -17,14 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.static import serve
 #Esto se hace para que Resumen de Pedidos se vea dentro de Admin
-from appTienda import views as tienda_views 
+from appTienda import views as tienda_views
 
 urlpatterns = [
     path('admin/appTienda/pedido/resumen/', tienda_views.resumen_pedidos, name='resumen_pedidos'),
     path('admin/', admin.site.urls),
     path('', include('appTienda.urls')),
+    # Servir archivos media en producción
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
-# Servir archivos media (imágenes de productos)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
