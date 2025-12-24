@@ -113,3 +113,43 @@ def resumen_pedidos(request):
         "por_pago": por_pago, 
         "recientes": recientes,
     })
+@login_required
+def reporte_pedidos(request):
+    estado = request.GET.get('estado')
+    desde = request.GET.get('desde')
+    hasta = request.GET.get('hasta')
+
+    ESTADOS = Pedido._meta.get_field('estado').choices
+
+    pedidos = Pedido.objects.all()
+
+    # Filtros
+    if estado:
+        pedidos = pedidos.filter(estado=estado)
+
+    if desde:
+        pedidos = pedidos.filter(fecha_solicitada__gte=desde)
+
+    if hasta:
+        pedidos = pedidos.filter(fecha_solicitada__lte=hasta)
+
+    # Datos para gráfico (ANTES del order_by para que agrupe correctamente)
+    resumen = (
+        pedidos
+        .values('estado')
+        .annotate(total=Count('id'))
+    )
+
+    # Ordenar para la tabla (DESPUÉS del resumen)
+    pedidos = pedidos.order_by('-fecha_solicitada')
+
+    context = {
+        'pedidos': pedidos,
+        'resumen': resumen,
+        'estado': estado,
+        'desde': desde,
+        'hasta': hasta,
+        'estados': ESTADOS,
+    }
+
+    return render(request, 'reportes/pedidos.html', context)
