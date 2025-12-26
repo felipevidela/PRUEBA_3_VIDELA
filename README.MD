@@ -66,6 +66,7 @@ python3 manage.py runserver
 2. **Configurar variables de entorno en Railway:**
    - `DJANGO_SECRET_KEY`: clave secreta para producción
    - `DEBUG`: False (ya configurado por defecto)
+   **Nota de seguridad:** En un entorno de producción real, se debe configuar la variable `DJANGO_SECRET_KEY`con una clave única y secreta. El proyecto un clave por defecto para que sea fácil para evaluar por el profesor, pero no es recomendado para aplicaciones en producción. 
 
 3. **Configurar comando de inicio:**
    - En Railway: Settings > Deploy > Custom Start Command

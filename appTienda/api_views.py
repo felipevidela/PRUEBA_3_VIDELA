@@ -61,6 +61,17 @@ class PedidoFiltrarAPIView(APIView):
         except: 
             return Response ({"error": "Formato de fecha invalido. Use YYYY-MM-DD"}, status=status.HTTP_400_BAD_REQUEST)
         
+        #Validar estados 
+        ESTADOS_VALIDOS = [estado_opcion[0] for estado_opcion in Pedido.ESTADOS]
+        if estado: 
+            lista_estados = [estado_ingresado.strip() for estado_ingresado in estado.split(",") if estado_ingresado.strip()]
+            estados_invalidos = [estado_ingresado for estado_ingresado in lista_estados if estado_ingresado not in ESTADOS_VALIDOS]
+            if estados_invalidos:
+                return Response(
+                    {"error": f"Estado inválidos: {estados_invalidos}. Estados válidos: {ESTADOS_VALIDOS}"},
+                    status=status.HTTP_400_BAD_REQUEST 
+                ) 
+            
         qs = Pedido.objects.all() 
 
         if desde:
