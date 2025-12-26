@@ -176,6 +176,12 @@ curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?desde
 ### API 3 - GET Filtrar Pedidos (200 OK)
 ![API Filtrar](evidencias/api_filtrar.png)
 
+### API 3 - Validación de estado inválido (400 Bad Request)
+**URL:** `/api/pedidos/filtrar/?estados=INVALIDO`
+La API valida que los estados existan y retorna error 400 si no son válidos.
+
+![API Filtrar Error](evidencias/api_filtrar_error.png)
+
 ---
 ## Report del Sistema 
 
