@@ -133,11 +133,30 @@ def reporte_pedidos(request):
     if hasta:
         pedidos = pedidos.filter(fecha_solicitada__lte=hasta)
 
-    # Datos para gráfico (ANTES del order_by para que agrupe correctamente)
+    # Datos para gráfico de barras (por estado)
     resumen = (
         pedidos
         .values('estado')
         .annotate(total=Count('id'))
+    )
+
+    # Datos para gráfico de torta (porcentaje por estado)
+    resumen_torta = list(resumen)
+
+    # Datos para gráfico por plataforma
+    resumen_plataforma = (
+        pedidos
+        .values('plataforma')
+        .annotate(total=Count('id'))
+    )
+
+    # Datos para gráfico de líneas (por fecha)
+    resumen_fechas = (
+        pedidos
+        .exclude(fecha_solicitada__isnull=True)
+        .values('fecha_solicitada')
+        .annotate(total=Count('id'))
+        .order_by('fecha_solicitada')
     )
 
     # Ordenar para la tabla (DESPUÉS del resumen)
@@ -146,6 +165,9 @@ def reporte_pedidos(request):
     context = {
         'pedidos': pedidos,
         'resumen': resumen,
+        'resumen_torta': resumen_torta,
+        'resumen_plataforma': resumen_plataforma,
+        'resumen_fechas': resumen_fechas,
         'estado': estado,
         'desde': desde,
         'hasta': hasta,

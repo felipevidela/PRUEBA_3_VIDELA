@@ -201,7 +201,12 @@ La API valida que los estados existan y retorna error 400 si no son válidos.
 - **Filtro por estado:** Selecciona un estado específico (Solicitado, Aprobado, En proceso, etc.)
 - **Filtro por fechas:** Define un rango con fecha desde/hasta
 - **Tabla:** Muestra los peddios filtrados con ID, estado y fecha
-- **Gráfico:** Visualización de cantidad de pedidos por estado (se usa Chart.js)
+
+### Gráficos (Chart.js)
+- **Cantidad por Estado (Barras):** Muestra la cantidad de pedidos por cada estado 
+- **Distribución por Estado (Torta):** Muestra el porcentaje de pedidos por estado 
+- **Pedidos por Plataforma (Barras):** Muestra pedidos por canal (Web, Instagram, WhatsApp, etc.)
+- **Pedidos por Fecha (Líneas):** Muestra la tendencia de pedidos en el tiempo 
 
 ---
 
@@ -216,8 +221,26 @@ La API valida que los estados existan y retorna error 400 si no son válidos.
 ### Reporte filtrado por estado "Aprobado"
 ![Reporte Aprobado](evidencias/reporte_filtro_aprobado.png)
 
+### Tabla de pedidos del reporte
+![Reporte Tabla](evidencias/reporte_tabla.png)
+
 ### Reporte filtrado por estado "Solicitado"
 ![Reporte Solicitado](evidencias/reporte_filtro_solicitado.png)
+
+## Gráfico de Barras por Estado
+![Gráfico Barras](evidencias/grafico_barras.png)
+
+### Gráfico de Torta por Estado
+![Gráfico Torta](evidencias/grafico_torta.png)
+
+### Gráfico por Plataforma
+![Gráfico Plataforma](evidencias/grafico_plataforma.png)
+
+### Gráfico de Líneas por Fecha
+![Gráfico Líneas](evidencias/grafico_lineas.png)
+
+
+
 
 ---
 
