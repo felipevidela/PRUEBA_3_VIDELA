@@ -1,5 +1,6 @@
 from django import forms
 from .models import Pedido
+from datetime import date 
 
 
 class MultiClearableFileInput(forms.ClearableFileInput):
@@ -51,3 +52,14 @@ class PedidoForm(forms.ModelForm):
             "producto": forms.HiddenInput(),
             "fecha_solicitada": forms.DateInput(attrs={"type": "date"}),
         }
+
+    def clean_fecha_solicitada(self):
+        # Obtiene el valor del campo "fecha_solicitada" ya procesado
+        fecha = self.cleaned_data.get("fecha_solicitada")
+        #Si exise una fecha y es anterior a hoy da error 
+        if fecha and fecha < date.today(): 
+            raise forms.ValidationError(
+                "La fecha solicitada no puede ser anterior a hoy."
+            )
+        return fecha 
+

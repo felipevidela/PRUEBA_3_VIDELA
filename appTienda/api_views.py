@@ -29,7 +29,7 @@ class PedidoCreateUpdateAPIView(APIView):
             return Response(PedidoSerializer(pedido).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def path(self, request, pk):
+    def patch(self, request, pk):
         pedido = get_object_or_404(Pedido, pk=pk)
         serializer = PedidoSerializer(pedido, data=request.data, partial=True)
         if serializer.is_valid():
@@ -38,8 +38,8 @@ class PedidoCreateUpdateAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PedidoFiltrarAPIView(APIView):
-    #Ejemplo GET /api/pedidos/filtrar/?desde=2025-01-01&hasta=2025-12-31&estados=pendiente, enviado&max=20 
-    def gest(self, request):
+    #Ejemplo GET /api/pedidos/filtrar/?desde=2025-01-01&hasta=2025-12-31&estados=pendiente,enviado&max=20
+    def get(self, request):
         desde = request.query_params.get('desde')
         hasta = request.query_params.get('hasta')
         estado = request.query_params.get('estados') #Puede ser pendiente o enviado 
@@ -63,22 +63,22 @@ class PedidoFiltrarAPIView(APIView):
         
         qs = Pedido.objects.all() 
 
-        if desde: 
-            qs = qs.filter(fecha__gte=desde)
+        if desde:
+            qs = qs.filter(fecha_solicitada__gte=desde)
         if hasta:
-            qs = qs.filter(fecha__lte=hasta)
+            qs = qs.filter(fecha_solicitada__lte=hasta)
 
-        if estado: 
+        if estado:
             lista_estados = [estado.strip() for estado in estado.split(",") if estado.strip()]
             qs = qs.filter(estado__in=lista_estados)
 
-            qs = qs.order_by ('-id')[:max_results]
-            data = PedidoSerializer (qs, many=True).data 
+        qs = qs.order_by('-id')[:max_results]
+        data = PedidoSerializer(qs, many=True).data
 
-            return Response ({
-                "count": len(data),
-                "results": data
-            }, statuts=status.HTTP_200_OK)
+        return Response({
+            "count": len(data),
+            "results": data
+        }, status=status.HTTP_200_OK)
 
 
 

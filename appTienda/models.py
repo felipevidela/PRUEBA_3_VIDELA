@@ -4,6 +4,7 @@ import uuid
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from datetime import date 
 
 
 class Categoria(models.Model):
@@ -105,6 +106,11 @@ class Pedido(models.Model):
         # Si no es 'Otra', limpiar el texto
         if self.plataforma != 'OTRA':
             self.plataforma_otra = None
+        # Validar que la fecha solicitada no sea anterior a hoy
+        if self.fecha_solicitada and self.fecha_solicitada < date.today():
+            raise ValidationError(
+                "La fecha solicitada no puede ser anterior a la fecha de hoy."
+            )
 
     def __str__(self):
         return f"{self.nombre_cliente} - {self.get_estado_display()}"

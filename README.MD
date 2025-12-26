@@ -56,7 +56,21 @@ Nota: Si ya usaste la base de datos incluida, crear migraciones nuevas puede cho
 ## Funcionalidad extra 
 - Resumen de pedidos para el personal administativo en `/admin/appTienda/pedido/resumen/` con conteos por estado, estado de pago y últimos pedidos con enlace para su seguimiento. 
 
+## Evaluación Sumativa N°4 - Tienda Online con API y Deploy 
 
+## Deploy
+
+URL pública: https://prueba3videla-production.up.railway.app 
+
+## Endpoints API 
+
+- **Insumos (CRUD)** https://prueba3videla-production.up.railway.app/api/insumos/
+- **Pedidos (crear/modificar)**: https://prueba3videla-production.up.railway.app/api/pedidos/
+- **Filtrar pedidos**: https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/ 
+
+## Credenciales de acceso: 
+- Usuario: `admin`
+- Contraseña: `admin`
 
 
 
