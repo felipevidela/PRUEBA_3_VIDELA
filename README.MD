@@ -72,10 +72,144 @@ URL pública: https://prueba3videla-production.up.railway.app
 - Usuario: `admin`
 - Contraseña: `admin`
 
+## Instrucciones de Deploy (Railway)
+
+### Requisitos previos 
+- Cuenta en [Railway] (https://railway.app)
+- Repositorio en Github 
+
+### Pasos para deploy 
+
+1. Conectar repositorio a Railway: 
+- Ir a https://railway.app y crear nuevo proyecto 
+- Seleccionar "Deploy from Github repo" 
+- Autorizar y seleccionar el repositorio 
+
+2. Configurar variables de entorno en Railway (opcional): 
+- `DJANGO_SECRET_KEY`: clave secreta para producción (Ya tiene una clave por defecto en el código)
+- `DEBUG`: False (ya está por defecto)
+
+3. Configurar comando de inicio en Railway: 
+- Ir a tu proyecto en Railway 
+- Click en el servicio (el bloque de tu app)
+- Ir a "Settings" 
+- Buscar sección "Deploy" o "Start Command" 
+- En "Custom Start Command" escribir:
+``` 
+gunicorn PRUEBA_3_VIDELA.wsgi
+```
+- Guardar cambios
+
+4. Generar dominio público: 
+- En Settings > Domains > Generate Domain
+
+**Nota** La base de datos (`db.sqlite3`) está incluida en el repositor con datos de prueba precargados (categorías, productos, insumos y pedidos). No es necesario ejecutar migraciones ni crear datos. 
+
+## Endpoints API 
+
+### API 1 - CRUD Insumos 
+**Ruta:** `/api/insumos/`
+
+**Método** **Endpoint**           **Descripción** 
+GET     `/api/insumos/`         Listar todos los insumos
+POST    `/api/insumos/`         Crear nuevo insumo 
+GET     `/api/insumos/{id}/`    Ver detalle de un insumo 
+PUT     `/api/insumos/{id}/`    Modificar el insumo completo 
+PATCH   `/api/insumos/{id}/`    Modificar insumo parcial 
+DELETE  `/api/insumos/{id}/`    Eliminar el insumo 
+
+**Ejemplo - Listar insumos:** 
+curl https://prueba3videla-production.up.railway.app/api/insumos/ 
+
+**Ejemplo - Crear insumo:** 
+curl -X POST https://prueba3videla-production.up.railway.app/api/insumos/ -H "Content-Type: application/json" -d '{"nombre":"Tela Nueva","tipo":"tela","cantidad_disponible":100,"unidad":"metros","marca":"MarcaX","color":"azul"}'
+
+### API 2 - Crear y Modificar Pedidos 
+**Ruta** `/api/pedidos/`
+
+**Método** **Endpoint**      **Descripción** 
+POST    `/api/pedidos/`      Crear nuevo pedido 
+PUT     `/api/pedidos/{id}/` Modificar pedido completo 
+PATCH   `/api/pedidos/{id}/` Modificar pedido parcial 
+
+**Nota:** GET (listar) y DELETE están bloqueados por diseño.
+
+**Ejemplo - Crear pedido:**
+curl -X POST https://prueba3videla-production.up.railway.app/api/pedidos/ -H "Content-Type: application/json" -d '{"nombre_cliente":"Juan Pérez","descripcion":"Pedido de prueba","estado":"SOLICITADO","estado_pago":"PENDIENTE","plataforma":"SITIO_WEB"}'
 
 
+**Ejemplo - Modificar estado de pedido:** 
+curl -X PATCH https://prueba3videla-production.up.railway.app/api/pedidos/1/ -H "Content-Type: application/json" -d '{"estado":"APROBADO"}'
 
+### API 3 - Filtrar Pedidos 
+**RUTA:** `/api/pedidos/filtrar/`
 
+**Parámetro** **Tipo** **Descripción**
+desde         fecha    Fecha inicio (YYYY-MM-DD)
+hasta         fecha    Fecha fin (YYYY-MM-DD) 
+estados       texto    Estados separados por coma
+max           entero   Máximo de resultados (1-200)
 
+**Ejemplo - Filtrar por fechas:** 
+curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?desde=2025-01-01&hasta=2025-12-31"
 
+**Ejemplo - Filrar por estado:** 
+curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?estados=SOLICITADO,APROBADO"
+
+**Ejemplo - Filtrar con límite:** 
+curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?max=10" 
+
+**Ejemplo - Filtro combinado:** 
+curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?desde=2025-01-01&estados=SOLICITADO&max=5"
+
+## Evidencia de consumo de APIs 
+-- 
+### API 1 - Insumos 
+**Endpoint:** `GET /api/insumos/`
+
+**Respuesta JSON:**
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Tela Algodón Premium",
+    "tipo": "tela",
+    "cantidad_disponible": 150,
+    "unidad": "metros",
+    "marca": "TextilPro",
+    "color": "blanco"
+  }
+]
+
+API 2 - Insumos (GET /api/insumos)
+
+Request: 
+
+{
+  "nombre_cliente": "Juan Pérez",
+  "descripcion": "Pedido de prueba",
+  "estado": "SOLICITADO",
+  "estado_pago": "PENDIENTE",
+  "plataforma": "SITIO_WEB"
+}
+
+Respuesta: HTTP 201 Created
+
+API 3 - Filtrar Pedidos Created 
+
+URL: /api/pedidos/filtrar/?estados=SOLICITADO&max=5
+
+Respuesta JSON: 
+
+{
+  "count": 5,
+  "results": [
+    {
+      "id": 21,
+      "nombre_cliente": "Cliente Ejemplo",
+      "estado": "SOLICITADO",
+      "estado_pago": "PENDIENTE"
+    }
+  ]
+}
 
