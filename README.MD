@@ -164,7 +164,9 @@ curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?desde
 
 ## Evidencia de consumo de APIs 
 -- 
-### API 1 - Insumos 
+### API 1 - GET Insumos (200 OK)
+![API Insumos](evidencias/api_insumos.png)
+
 **Endpoint:** `GET /api/insumos/`
 
 **Respuesta JSON:**
@@ -181,7 +183,8 @@ curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?desde
   }
 ]
 
-API 2 - Insumos (GET /api/insumos)
+API 2 - GET Pedidos bloqueado (405)
+![API Pedidos GET](evidencias/api_pedidos_get_bloqueado.png)
 
 Request: 
 
@@ -213,3 +216,11 @@ Respuesta JSON:
   ]
 }
 
+### API 2 - POST Crear Pedido (201 Created)
+![API Pedidos POST](evidencias/api_pedidos_post.png)
+
+### API 3 - GET Filtrar Pedidos (200 OK)
+![API Filtrar](evidencias/api_filtrar.png)
+
+### Reporte del Sistema
+![Reporte](evidencias/reporte.png)
