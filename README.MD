@@ -176,6 +176,27 @@ curl "https://prueba3videla-production.up.railway.app/api/pedidos/filtrar/?desde
 ![API Filtrar](evidencias/api_filtrar.png)
 
 ---
+## Report del Sistema 
+
+**URL:** https://prueba3videla-production.up.railway.app/reporte/pedidos/ 
+
+### Accesos al reporte 
+1. Ir a la URL del reporte 
+2. Iniciar sesión con las credenciales de admin: 
+- Usuario: `admin`
+- Contraseña: `admin`
+3. Una vez ingresado, verás el reporte con:
+- Filtros por estado y rango de fechas 
+- Tabla de pedidos 
+- Gráfico de barras por estado 
+
+### Funcionalidades del reporte 
+- **Filtro por estado:** Selecciona un estado específico (Solicitado, Aprobado, En proceso, etc.)
+- **Filtro por fechas:** Define un rango con fecha desde/hasta
+- **Tabla:** Muestra los peddios filtrados con ID, estado y fecha
+- **Gráfico:** Visualización de cantidad de pedidos por estado (se usa Chart.js)
+
+---
 
 ## Evidencias Reporte del Sistema
 
